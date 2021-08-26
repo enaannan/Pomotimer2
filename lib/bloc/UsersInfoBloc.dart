@@ -1,28 +1,26 @@
-import 'package:pomotimer2/data/models/user.dart';
 import 'package:pomotimer2/data/resources/Respository.dart';
+import 'package:pomotimer2/data/models/user.dart';
 
 import 'package:rxdart/rxdart.dart';
 
 class UsersInfoBloc {
   final _repository = Repository();
-  final _userFetcher = PublishSubject<User>(); // Stream controller that has both a source and a sink
+  final _userPomodorosStreamController = PublishSubject<User>(); // Stream controller that has both a source and a sink
 
-  Stream<User> get allUsers => _userFetcher.stream;
+  Stream<User> get allUsersAndPomodoros => _userPomodorosStreamController.stream;
 
   //fetch user information from user repository
-  fetchUserInfoFromBloc() async {
+  fetchUserAndPomodorosFromBloc() async {
     // only add to sink of streamContoller if it is not closed
-    if (!_userFetcher.isClosed) {
-      User user = await _repository.fetchUserInfo();
-      _userFetcher.sink
-          .add(user); // data from the repository enters through this sink
+    if (!_userPomodorosStreamController.isClosed) {
+      User user = await _repository.fetchUserAndPomodoros();
+      _userPomodorosStreamController.sink.add(user); // data from the repository enters through this sink
     } else
-      print(
-          "Stream is closed. Figure out where you are calling the close method on the stream ");
+      print("Stream is closed. Figure out where you are calling the close method on the stream ");
   }
 
   dispose() {
-    _userFetcher.close();
+    _userPomodorosStreamController.close();
   }
 }
 

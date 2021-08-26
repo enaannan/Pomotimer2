@@ -18,7 +18,7 @@ class _TimeScreenState extends State<TimeScreen> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchUserInfoFromBloc();
+    bloc.fetchUserAndPomodorosFromBloc();
   }
 
   @override
