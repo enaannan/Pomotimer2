@@ -91,23 +91,18 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     ),
                   ),
                 ),
-                BlueCard(textName: "Login",action: 
-                 () => Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              // return here(animation);fix from here
-              return MainScreen();
-            },
-            transitionDuration: Duration(seconds: 1),
-          ))
-                
-                
-                
-                
-                
-                
-                ),
+                BlueCard(
+                    textName: "Login",
+                    action: () => Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            // return here(animation);fix from here
+                            return MainScreen();
+                          },
+                          transitionDuration: Duration(seconds: 1),
+                        ))),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: RichText(
@@ -137,4 +132,3 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         elevation: 50.0);
   }
 }
-

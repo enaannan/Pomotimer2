@@ -4,12 +4,14 @@ class BlueCard extends StatelessWidget {
   BlueCard({required this.textName, required this.action});
 
   final String textName;
+
   // final Widget nextScreen;
   final VoidCallback action;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:action,
+      onTap: action,
       child: Card(
         elevation: 10.0,
         shape:
@@ -19,9 +21,7 @@ class BlueCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
             height: 60.0,
-            
-            child:
-             Text(
+            child: Text(
               textName,
               style: TextStyle(
                   color: Colors.white, fontSize: 17.0, letterSpacing: 1.5),
@@ -33,23 +33,18 @@ class BlueCard extends StatelessWidget {
     );
   }
 
-  // AnimatedBuilder here(Animation<double> animation) {
-  //   return AnimatedBuilder(
-  //       animation: animation,
-  //       builder: (context, child) {
-  //         return SlideTransition(
-  //           position: Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-  //               .animate(animation),
-  //         );
-  //       },
-  //       child: nextScreen);
-  // }
+// AnimatedBuilder here(Animation<double> animation) {
+//   return AnimatedBuilder(
+//       animation: animation,
+//       builder: (context, child) {
+//         return SlideTransition(
+//           position: Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+//               .animate(animation),
+//         );
+//       },
+//       child: nextScreen);
+// }
 }
-
-
-
-
-
 
 //TODO: Next couple of code is cut out from here so push funtion is broken,
 
