@@ -6,7 +6,7 @@ class Repository {
   //connects to provider for fetching details about users
   final userApiProvider = UserApiProvider();
 
-  User fetchUserInfo() => userApiProvider.fetchUserInfo();
+  Future <User> fetchUserAndPomodoros() => userApiProvider.fetchUserInfo();
 }
 
 // import 'dart:math';

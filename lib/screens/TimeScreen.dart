@@ -18,7 +18,7 @@ class _TimeScreenState extends State<TimeScreen> {
   @override
   void initState() {
     super.initState();
-    bloc.fetchUserInfoFromBloc();
+    bloc.fetchUserAndPomodorosFromBloc();
   }
 
   @override
@@ -30,15 +30,13 @@ class _TimeScreenState extends State<TimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-            children: [
-            AppBar(
-            elevation: 0.0,
-            centerTitle: true,
-            actions: [
-        Padding(
-        padding: const EdgeInsets.all(10.0),
+    return Scaffold(
+      appBar:AppBar(
+          elevation: 0.0,
+          centerTitle: true,
+          actions: [
+      Padding(
+      padding: const EdgeInsets.all(10.0),
         child: IconButton(
             icon: Icon(Icons.add),
             onPressed: () => {
@@ -50,33 +48,67 @@ class _TimeScreenState extends State<TimeScreen> {
     ],
     leading: IconButton(icon: Icon(Icons.list_rounded),
     onPressed:()=>Navigator.of(context).push(
-      MaterialPageRoute(
-        builder:(context)=>ListScreen()
-        )
+    MaterialPageRoute(
+    builder:(context)=>ListScreen()
+    )
     ),
     ),
     title:Text("PomoTimer"),
-    ),
-//          StreamBuilder(
-//              stream: bloc.allUsers,
-//              builder: (context, AsyncSnapshot<User> snapshot) {
-//                if (snapshot.hasData) {
-//                  DisplayPomoTimer();
-//                } else if (snapshot.hasError) {
-//                  //display error
-//                }
-//                return Center(child: CircularProgressIndicator());
-//              }),
-    ],
-    ),
+    ) ,
+      body:  SafeArea(
+        child: StreamBuilder(
+    stream: bloc.allUsersAndPomodoros,
+    builder: (context, AsyncSnapshot<User> snapshot) {
+    if (snapshot.hasData) {
+                 return PomoTimerDisplay(
+                lastName: snapshot.data!.lastName!,
+    otherNames: snapshot.data!.otherNames!,
+    pomodoros: snapshot.data!.pomodoros,
+    );
+    } else if (snapshot.hasError) {
+    Text(snapshot.error.toString());
+    }
+    return Center(child: CircularProgressIndicator());
+    }),
+      )
     );
   }
+
 }
 
-class DisplayPomoTimer extends StatelessWidget {
-  const DisplayPomoTimer({
+class PomoTimerDisplay extends StatefulWidget {
+
+  final String lastName;
+  final String otherNames;
+  List<Pomodoros>? pomodoros = []; //todo:fix the datatype
+
+   PomoTimerDisplay({
+   required this.lastName,
+   required this.otherNames,
+    this.pomodoros,
     Key? key,
   }) : super(key: key);
+
+  @override
+  _PomoTimerDisplayState createState() =>
+      _PomoTimerDisplayState(
+          lastName: lastName,
+          otherNames: otherNames,
+          pomodoros: pomodoros);
+}
+
+class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
+
+  final String lastName;
+  final String otherNames;
+  final List<Pomodoros>? pomodoros;
+
+   _PomoTimerDisplayState({
+   required this.lastName,
+   required this.otherNames,
+   required this.pomodoros,
+  }) ;
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +117,16 @@ class DisplayPomoTimer extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.all(20.0),
-            child: Text(
-              "Current Task",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(20.0),
-            child: Text(
-              "Place Task name here",
-              style: GoogleFonts.ptSans(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
-            ),
+            child:(() {
+              if(pomodoros!= null) {
+              return  Text(pomodoros!.first.name!,
+                style: GoogleFonts.ptSans(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  ),
+                );
+              }else {return Text("Create a new Task");}
+            }())
           ),
           Text("Stay focused for " + "timed" + " mins"),
           Row(
