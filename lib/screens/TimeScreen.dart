@@ -203,6 +203,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
               padding:
                   const EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
               child: CircularStepProgressIndicator(
+                circularDirection: CircularDirection.counterclockwise,
                 totalSteps: 100,
                 stepSize: 1,
                 selectedColor: Colors.red,
@@ -263,6 +264,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
         if (_start == 25) {
           setState(() {
             timer.cancel();
+            _isTimerRunning = false;
           });
         } else {
           setState(() {
@@ -282,6 +284,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
         if (_start == 0) {
           setState(() {
             timer.cancel();
+            _isTimerRunning = false;
           });
         } else {
           setState(() {
