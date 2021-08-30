@@ -22,55 +22,61 @@ class _TimeScreenState extends State<TimeScreen> {
     bloc.fetchUserAndPomodorosFromBloc();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    bloc.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          elevation: 0.0,
-          centerTitle: true,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () => {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => NewTaskScreen()),
-                        ),
-                      }),
-            )
-          ],
-          leading: IconButton(
-            icon: Icon(Icons.list_rounded),
-            onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ListScreen())),
-          ),
-          title: Text("PomoTimer"),
+            elevation: 0.0,
+            centerTitle: true,
+            actions: [
+        Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => {
+            Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => NewTaskScreen()),
         ),
-        body: SafeArea(
-          child: StreamBuilder(
-              stream: bloc.allUsersAndPomodoros,
-              builder: (context, AsyncSnapshot<User> snapshot) {
-                if (snapshot.hasData) {
-                  return PomoTimerDisplay(
-                    lastName: snapshot.data!.lastName!,
-                    otherNames: snapshot.data!.otherNames!,
-                    pomodoros: snapshot.data!.pomodoros,
-                  );
-                } else if (snapshot.hasError) {
-                  Text(snapshot.error.toString());
-                }
-                return Center(child: CircularProgressIndicator());
-              }),
-        ));
+        }),)
+    ],
+    leading: IconButton(
+    icon: Icon
+    (Icons.list_rounded),
+    onPressed: ()
+    => Navigator.of(context)
+        .push(
+    MaterialPageRoute(builder: (context) => ListScreen(
+    ))),
+    ),
+    title: Text(
+    "PomoTimer"),
+    ),
+    body: SafeArea
+    (
+    child: StreamBuilder(
+    stream: bloc.allUsersAndPomodoros
+    ,
+    builder: (context, AsyncSnapshot<User>
+    snapshot)
+    {
+    if (snapshot.hasData) {
+    return PomoTimerDisplay(
+    lastName: snapshot.data!.lastName!,
+    otherNames: snapshot.data!.otherNames!,
+    pomodoros: snapshot.data!.pomodoros,
+    );
+    } else
+    if (snapshot.hasError) {
+    Text(snapshot.error.toString());
+    }
+    return Center(child: CircularProgressIndicator());
+    }
+    )
+    ,
+    )
+    );
   }
 }
 
@@ -105,7 +111,6 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
   Timer? _timer;
   int _start = 26; //count down
 //  int _start = 2; //count up
-
 
   _PomoTimerDisplayState({
     required this.lastName,
@@ -146,7 +151,19 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RawMaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    _isTimerRunning = false;
+                    _isTimerPaused = true;
+                    _currentTimerStep = 100; //count down
+                    _start = 26; //count down
+                    if (_timer != null) {
+                      _timer!.cancel();
+                    }
+                  }
+                  );
+                  startCountDownTimer();
+                },
                 shape: CircleBorder(),
                 child: Icon(
                   Icons.replay,
@@ -204,7 +221,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
           Expanded(
             child: Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
+              const EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
               child: CircularStepProgressIndicator(
                 circularDirection: CircularDirection.counterclockwise,
                 totalSteps: 100,
@@ -219,39 +236,36 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _isTimerRunning
                         ? [
-                            Text(
-                              "$_start",
-                              style: TextStyle(
-                                  fontSize: 70.0, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "2 out of 4 sessions",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ]
+                      Text(
+                        "$_start",
+                        style: TextStyle(
+                            fontSize: 70.0, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "2 out of 4 sessions",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ]
                         : [
-                            Container(
-                              height: 150,
-                              width: 150,
-                              child: RawMaterialButton(
-                                elevation: 4.0,
-                                onPressed: () {
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: RawMaterialButton(
+                          elevation: 4.0,
+                          onPressed: () {
 //                                  startCountUpTimer();
-                                  startCountDownTimer();
-                                  setState(() {
-                                    _isTimerRunning = true;
-                                  });
-                                },
-                                shape: CircleBorder(),
-                                child: Icon(
-                                  Icons.play_arrow,
-                                  color: Colors.lightBlueAccent,
-                                  size: 150.0,
-                                ),
-                                fillColor: Color(0xFFEEEEEE),
-                              ),
-                            )
-                          ]),
+                            startCountDownTimer();
+                          },
+                          shape: CircleBorder(),
+                          child: Icon(
+                            Icons.play_arrow,
+                            color: Colors.lightBlueAccent,
+                            size: 150.0,
+                          ),
+                          fillColor: Color(0xFFEEEEEE),
+                        ),
+                      )
+                    ]),
               ),
             ),
           ),
@@ -259,7 +273,8 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
       ),
     );
   }
-  void startCountUpTimer()  {
+
+  void startCountUpTimer() {
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
@@ -272,14 +287,18 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
         } else {
           setState(() {
             _start++;
-          _currentTimerStep = _start*4;
+            _currentTimerStep = _start * 4;
           });
         }
       },
     );
   }
 
-  void startCountDownTimer()  {
+  void startCountDownTimer() {
+    setState(() {
+      _isTimerRunning = true;
+    });
+
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,
@@ -292,9 +311,9 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
         } else {
           setState(() {
             _start--;
-          if(_currentTimerStep>0) {
-            _currentTimerStep = (_currentTimerStep - 4).round();
-          }
+            if (_currentTimerStep > 0) {
+              _currentTimerStep = (_currentTimerStep - 4).round();
+            }
           });
         }
       },
