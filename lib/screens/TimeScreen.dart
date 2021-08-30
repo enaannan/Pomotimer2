@@ -99,6 +99,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
   final List<Pomodoros>? pomodoros;
 
   bool _isTimerRunning = false;
+  bool _isPaused = false ;
   int _currentTimerStep = 100; //count down
 //  int _currentTimerStep = 1; //count up
   Timer? _timer;
@@ -160,6 +161,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                   onPressed: () {
                     setState(() {
                       _isTimerRunning = false;
+                      _isPaused = !_isPaused;
                       if(_timer != null){
                         _timer!.cancel();
                       }
@@ -168,6 +170,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                   },
                   shape: CircleBorder(),
                   child: Icon(
+                    _isPaused? Icons.play_arrow:
                     Icons.pause,
                     color: Colors.grey,
                   ),
