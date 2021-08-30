@@ -154,7 +154,6 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                 onPressed: () {
                   setState(() {
                     _isTimerRunning = false;
-                    _isTimerPaused = true;
                     _currentTimerStep = 100; //count down
                     _start = 26; //count down
                     if (_timer != null) {
@@ -182,7 +181,9 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                       if(_timer != null){
                         _timer!.cancel();
                       }
-                      _currentTimerStep = 0;
+//                      _currentTimerStep = 0;
+                    print(_start);
+                      if (_isPaused == false)startCountDownTimer();
                     });
                   },
                   shape: CircleBorder(),
@@ -199,6 +200,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                 onPressed: () {
                   setState(() {
                     _isTimerRunning = false;
+                    _isPaused = false;
                     if(_timer != null){
                       _timer!.cancel();
                     }
@@ -234,7 +236,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                 roundedCap: (_, __) => true,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: _isTimerRunning
+                    children: (_isTimerRunning||_isPaused)
                         ? [
                       Text(
                         "$_start",
