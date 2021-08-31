@@ -84,17 +84,7 @@ class PomoTimerDisplay extends StatefulWidget {
   final String lastName;
   final String otherNames;
 
-  List<Pomodoros>
-
-  ?
-
-  pomodoros
-
-  =
-
-  [
-
-  ]; //todo:fix the datatype
+  List<Pomodoros>? pomodoros = []; //todo:fix the datatype
 
   PomoTimerDisplay({
     required this.lastName,
@@ -104,35 +94,21 @@ class PomoTimerDisplay extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PomoTimerDisplayState createState() =>
-      _PomoTimerDisplayState(
-          lastName: lastName, otherNames: otherNames, pomodoros: pomodoros);
+  _PomoTimerDisplayState createState() => _PomoTimerDisplayState(
+      lastName: lastName, otherNames: otherNames, pomodoros: pomodoros);
 }
 
 class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
   final String lastName;
   final String otherNames;
 
-  final List<Pomodoros>
+  final List<Pomodoros>? pomodoros;
 
-  ?
-
-  pomodoros
-
-  ;
-
-  bool _isTimerPaused = false;
   bool _isTimerRunning = false;
+  bool _isPaused = false ;
   int _currentTimerStep = 100; //count down
 //  int _currentTimerStep = 1; //count up
-  Timer
-
-  ?
-
-  _timer
-
-  ;
-
+  Timer? _timer;
   int _start = 26; //count down
 //  int _start = 2; //count up
 
@@ -144,19 +120,10 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
 
   @override
   void dispose() {
-    if (_timer != null) {
-      _timer
-    !
-        .
-    cancel
-    (
-    );
+    if(_timer != null){
+    _timer!.cancel();
     }
-    super
-        .
-    dispose
-    (
-    );
+    super.dispose();
   }
 
   @override
@@ -182,27 +149,11 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
           Text("Stay focused for " + "timed" + " mins"),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: _isTimerPaused ? [
-              RawMaterialButton(
-                elevation: 4.0,
-                onPressed: () {
-//                                  startCountUpTimer();
-                  startCountDownTimer();
-                },
-                shape: CircleBorder(),
-                child: Icon(
-                  Icons.play_arrow,
-                  color: Colors.lightBlueAccent,
-                  size: 150.0,
-                ),
-                fillColor: Color(0xFFEEEEEE),
-              )
-            ] : [
+            children: [
               RawMaterialButton(
                 onPressed: () {
                   setState(() {
                     _isTimerRunning = false;
-                    _isTimerPaused = true;
                     _currentTimerStep = 100; //count down
                     _start = 26; //count down
                     if (_timer != null) {
@@ -219,46 +170,54 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                 ),
                 fillColor: Colors.white,
               ),
-            Container(
-              width: 50.0,
-              height: 100.0,
-              child: RawMaterialButton(
+              Container(
+                width: 50.0,
+                height: 100.0,
+                child: RawMaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      _isTimerRunning = false;
+                      _isPaused = !_isPaused;
+                      if(_timer != null){
+                        _timer!.cancel();
+                      }
+//                      _currentTimerStep = 0;
+                    print(_start);
+                      if (_isPaused == false)startCountDownTimer();
+                    });
+                  },
+                  shape: CircleBorder(),
+                  child: Icon(
+                    _isPaused? Icons.play_arrow:
+                    Icons.pause,
+                    color: Colors.grey,
+                  ),
+                  fillColor: Colors.white,
+                ),
+              ),
+              RawMaterialButton(
+                shape: CircleBorder(),
                 onPressed: () {
                   setState(() {
                     _isTimerRunning = false;
-                    if (_timer != null) {
+                    _isPaused = false;
+                    if(_timer != null){
                       _timer!.cancel();
-                  }
+                    }
+//                   _start = 2; //for countUp Timer
+//                   _currentTimerStep = 1; // for countUp Timer
+
+                    _start = 26;//count down
+                    _currentTimerStep = 100;//count down
+
                   });
                 },
-                shape: CircleBorder(),
                 child: Icon(
-                  Icons.pause,
+                  Icons.stop,
                   color: Colors.grey,
                 ),
                 fillColor: Colors.white,
-              ),
-            ),
-            RawMaterialButton(
-              shape: CircleBorder(),
-              onPressed: () {
-                setState(() {
-                  _isTimerRunning = false;
-                  if (_timer != null) {
-                    _timer!.cancel();
-                  }
-//                   _start = 2; //for countUp Timer
-//                   _currentTimerStep = 1; // for countUp Timer
-                  _start = 26; //count down
-                  _currentTimerStep= 100; //count down
-                });
-              },
-              child: Icon(
-                Icons.stop,
-                color: Colors.grey,
-              ),
-              fillColor: Colors.white,
-            )
+              )
             ],
           ),
           Expanded(
@@ -277,7 +236,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                 roundedCap: (_, __) => true,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: _isTimerRunning
+                    children: (_isTimerRunning||_isPaused)
                         ? [
                       Text(
                         "$_start",
@@ -363,3 +322,5 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
     );
   }
 }
+
+
