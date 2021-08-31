@@ -181,8 +181,6 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
                       if(_timer != null){
                         _timer!.cancel();
                       }
-//                      _currentTimerStep = 0;
-                    print(_start);
                       if (_isPaused == false)startCountDownTimer();
                     });
                   },
