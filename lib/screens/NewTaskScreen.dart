@@ -55,12 +55,10 @@ class NewTaskScreen extends StatelessWidget {
                       TextField(
                         decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                          hintText: "Enter Pomodoro name here"
+                        hintText: "Enter Pomodoro name here"
                       ),
                       ),
-                      SizedBox(
-                        height: 15,
-                      ),
+                      SizedBox(height: 15),
                       TextField(
                         maxLines: 5,
                         decoration: InputDecoration(
@@ -87,7 +85,13 @@ class NewTaskScreen extends StatelessWidget {
                   ListTile(
                     title: Text("Break length"),
                     trailing: Icon(Icons.keyboard_arrow_right),
-                  onTap: (){print("hhhh");}),
+                  onTap: (){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return OptionsDialog();
+                          });
+                    }),
                   Divider(),
                     ListTile(
                         title: Text("Working sessions"),
@@ -133,6 +137,19 @@ class NewTaskScreen extends StatelessWidget {
   }
 }
 
+
+class OptionsDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+     title: Text("This is the title"),
+      actions: [
+        RadioListTile(title: Text("long break"), value: true, groupValue: true, onChanged: (value){}),
+        RadioListTile(title: Text("short break"), value: true, groupValue: true, onChanged: (value){})
+      ],
+    );
+  }
+}
 
 class SettingsCard extends StatelessWidget {
   const SettingsCard({
