@@ -84,61 +84,25 @@ class NewTaskScreen extends StatelessWidget {
               child: SettingsCard(
                 child: ListView(
                   children: [
-                    ListTile(title: Text("Break length"),
-                        trailing:Row(
-                          children: [
-                            Text("5 min"),
-                            Icon(Icons.keyboard_arrow_right)
-                          ],
-                        ),
-                        onTap: (){}),
-                    Divider(),
-//                    ListTile(
-//                      children: [
-//                        Text("Long break"),
-//                        Row(
-//                          children: [
-//                            Text("25 min"),
-//                            Icon(Icons.keyboard_arrow_right)
-//                          ],
-//                        )
-//                      ],
-//                    ),
-                    Divider(),
-//                    ListTile(
-//                      children: [
-//                        Text("Working sessions"),
-//                        Row(
-//                          children: [
-//                            Text("6 times"),
-//                            Icon(Icons.keyboard_arrow_right)
-//                          ],
-//                        )
-//                      ],
-//                    ),
-                    Divider(),
-//                    ListTile(
-//                      children: [
-//                        Text("Automatic breaks"),
-//                        Switch(
-//                          value: true,
-//                          onChanged: (bool value) {
-//                            print('toggled!!!!');
-//                          },
-//                        )
-//                      ],
-//                    ),
-                    Divider(),
-//                    ListTile(
-//                      children: [
-//                        Text("Sound"),
-//                        Switch(
-//                            value: true,
-//                            onChanged: (bool value) {
-//                              print('toggled!!!!');
-//                            }),
-//                      ],
-//                    )
+                  ListTile(
+                    title: Text("Break length"),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: (){print("hhhh");}),
+                  Divider(),
+                    ListTile(
+                        title: Text("Working sessions"),
+                        trailing: Icon(Icons.keyboard_arrow_right),
+                        onTap: (){print("hhhh");}),
+                  Divider(),
+                  ListTile(
+                      title: Text("Automatic breaks"),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: (){print("hhhh");}),
+                  Divider(),
+                  ListTile(
+                      title: Text("Sound"),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: (){print("hhhh");}),
                   ],
                 ),
               ),
@@ -169,24 +133,6 @@ class NewTaskScreen extends StatelessWidget {
   }
 }
 
-//class ListTile extends StatelessWidget {
-//  const ListTile({
-//    Key? key,
-//    required this.children,
-//  }) : super(key: key);
-//
-//  final List<Widget> children;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//        margin: EdgeInsets.symmetric(vertical: 5),
-//        child: Row(
-//          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//          children: children,
-//        ));
-//  }
-//}
 
 class SettingsCard extends StatelessWidget {
   const SettingsCard({
