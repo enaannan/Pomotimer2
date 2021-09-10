@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomotimer2/widgets/BlueCard.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pomotimer2/widgets/SettingsUI.dart';
 
-class NewTaskScreen extends StatelessWidget {
+
+class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({Key? key,}) : super(key: key);
 
+  @override
+  _NewTaskScreenState createState() => _NewTaskScreenState();
+}
+
+enum AlarmNames{ginger , caramel, snoozy }
+class _NewTaskScreenState extends State<NewTaskScreen> {
+bool _automaticBreaks = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -84,7 +94,13 @@ class NewTaskScreen extends StatelessWidget {
                   children: [
                   ListTile(
                     title: Text("Break length"),
-                    trailing: Icon(Icons.keyboard_arrow_right),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(describeEnum(BreakLength.short)),
+                        Icon(Icons.keyboard_arrow_right),
+                      ],
+                    ),
                   onTap: (){
                       showDialog(
                           context: context,
@@ -95,18 +111,40 @@ class NewTaskScreen extends StatelessWidget {
                   Divider(),
                     ListTile(
                         title: Text("Working sessions"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(describeEnum(BreakLength.short)),
+                            Icon(Icons.keyboard_arrow_right),
+                          ],
+                        ),
                         onTap: (){print("hhhh");}),
                   Divider(),
-                  ListTile(
+                  SwitchListTile(
                       title: Text("Automatic breaks"),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: (){print("hhhh");}),
+                      value: _automaticBreaks,
+                      onChanged: (bool value){
+                            setState((){
+                            _automaticBreaks = value;
+                            });
+                      }),
                   Divider(),
                   ListTile(
                       title: Text("Sound"),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: (){print("hhhh");}),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(describeEnum(BreakLength.short)),
+                          Icon(Icons.keyboard_arrow_right),
+                        ],
+                      ),
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return OptionsDialog();
+                            });
+                      }),
                   ],
                 ),
               ),
@@ -137,45 +175,3 @@ class NewTaskScreen extends StatelessWidget {
   }
 }
 
-
-class OptionsDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-     title: Text("This is the title"),
-      actions: [
-        RadioListTile(title: Text("long break"), value: true, groupValue: true, onChanged: (value){}),
-        RadioListTile(title: Text("short break"), value: true, groupValue: true, onChanged: (value){})
-      ],
-    );
-  }
-}
-
-class SettingsCard extends StatelessWidget {
-  const SettingsCard({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey[200]!,
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, -1))
-        ],
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
-          child: child),
-    );
-  }
-}
