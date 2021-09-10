@@ -50,11 +50,22 @@ class NewTaskScreen extends StatelessWidget {
                 ),
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     children: [
-                      Text("Web design practice"),
-                      Icon(Icons.rate_review)
+                      TextField(
+                        decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: "Enter Pomodoro name here"
+                      ),
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                        maxLines: 5,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: "Description"
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -71,64 +82,31 @@ class NewTaskScreen extends StatelessWidget {
               child: SettingsCard(
                 child: ListView(
                   children: [
+                  ListTile(
+                    title: Text("Break length"),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: (){
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context){
+                            return OptionsDialog();
+                          });
+                    }),
+                  Divider(),
                     ListTile(
-                      children: [
-                        Text("Short break"),
-                        Row(
-                          children: [
-                            Text("5 min"),
-                            Icon(Icons.keyboard_arrow_right)
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    ListTile(
-                      children: [
-                        Text("Long break"),
-                        Row(
-                          children: [
-                            Text("25 min"),
-                            Icon(Icons.keyboard_arrow_right)
-                          ],
-                        )
-                      ],
-                    ),
-                    Divider(),
-                    ListTile(
-                      children: [
-                        Text("Working sessions"),
-                        Row(
-                          children: [
-                            Text("6 times"),
-                            Icon(Icons.keyboard_arrow_right)
-                          ],
-                        )
-                      ],
-                    ),
-                    Divider(),
-                    ListTile(
-                      children: [
-                        Text("Automatic breaks"),
-                        Switch(
-                          value: true,
-                          onChanged: (bool value) {
-                            print('toggled!!!!');
-                          },
-                        )
-                      ],
-                    ),
-                    Divider(),
-                    ListTile(
-                      children: [
-                        Text("Sound"),
-                        Switch(
-                            value: true,
-                            onChanged: (bool value) {
-                              print('toggled!!!!');
-                            }),
-                      ],
-                    )
+                        title: Text("Working sessions"),
+                        trailing: Icon(Icons.keyboard_arrow_right),
+                        onTap: (){print("hhhh");}),
+                  Divider(),
+                  ListTile(
+                      title: Text("Automatic breaks"),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: (){print("hhhh");}),
+                  Divider(),
+                  ListTile(
+                      title: Text("Sound"),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      onTap: (){print("hhhh");}),
                   ],
                 ),
               ),
@@ -159,22 +137,17 @@ class NewTaskScreen extends StatelessWidget {
   }
 }
 
-class ListTile extends StatelessWidget {
-  const ListTile({
-    Key? key,
-    required this.children,
-  }) : super(key: key);
 
-  final List<Widget> children;
-
+class OptionsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.symmetric(vertical: 5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: children,
-        ));
+    return AlertDialog(
+     title: Text("This is the title"),
+      actions: [
+        RadioListTile(title: Text("long break"), value: true, groupValue: true, onChanged: (value){}),
+        RadioListTile(title: Text("short break"), value: true, groupValue: true, onChanged: (value){})
+      ],
+    );
   }
 }
 
