@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomotimer2/widgets/BlueCard.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pomotimer2/widgets/SettingsUI.dart';
 
-class NewTaskScreen extends StatelessWidget {
+class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({Key? key,}) : super(key: key);
 
+  @override
+  _NewTaskScreenState createState() => _NewTaskScreenState();
+}
+
+enum AlarmNames{ginger , caramel}
+enum BreakLength{short, long}
+enum WorkingSessions{two, four}
+
+class _NewTaskScreenState extends State<NewTaskScreen> {
+bool _automaticBreaks = false;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -84,29 +96,79 @@ class NewTaskScreen extends StatelessWidget {
                   children: [
                   ListTile(
                     title: Text("Break length"),
-                    trailing: Icon(Icons.keyboard_arrow_right),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(describeEnum(BreakLength.short)),
+                        Icon(Icons.keyboard_arrow_right),
+                      ],
+                    ),
                   onTap: (){
                       showDialog(
                           context: context,
                           builder: (BuildContext context){
-                            return OptionsDialog();
+                            return TwoOptionsDialog(
+                                dialogTitle:"Break length title",
+                                radioListOneTitle: describeEnum(BreakLength.short),
+                                radioListTwoTitle: describeEnum(BreakLength.long),
+                              tileOneValue: BreakLength.short,
+                              tileTwoValue: BreakLength.long,
+                            );
                           });
                     }),
                   Divider(),
                     ListTile(
                         title: Text("Working sessions"),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                        onTap: (){print("hhhh");}),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(describeEnum(WorkingSessions.two)),
+                            Icon(Icons.keyboard_arrow_right),
+                          ],
+                        ),
+                        onTap: (){
+                         showDialog(context: context, builder: (BuildContext context){
+                           return TwoOptionsDialog(
+                               dialogTitle: "Working sessions title",
+                               radioListOneTitle: describeEnum(WorkingSessions.two),
+                               radioListTwoTitle: describeEnum(WorkingSessions.four),
+                             tileOneValue: WorkingSessions.two,
+                             tileTwoValue: WorkingSessions.four,
+                           );
+                         });
+                        }),
                   Divider(),
-                  ListTile(
+                  SwitchListTile(
                       title: Text("Automatic breaks"),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: (){print("hhhh");}),
+                      value: _automaticBreaks,
+                      onChanged: (bool value){
+                            setState((){
+                            _automaticBreaks = value;
+                            });
+                      }),
                   Divider(),
                   ListTile(
                       title: Text("Sound"),
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      onTap: (){print("hhhh");}),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(describeEnum(AlarmNames.ginger)),
+                          Icon(Icons.keyboard_arrow_right),
+                        ],
+                      ),
+                      onTap: (){
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context){
+                              return TwoOptionsDialog(
+                                dialogTitle: "Sound Title",
+                                  radioListOneTitle: describeEnum(AlarmNames.caramel),
+                                  radioListTwoTitle: describeEnum(AlarmNames.ginger),
+                                tileOneValue: AlarmNames.caramel,
+                                tileTwoValue: AlarmNames.ginger,
+                              ); // comment sound was kept to two options for simplicity
+                            });
+                      }),
                   ],
                 ),
               ),
@@ -133,20 +195,6 @@ class NewTaskScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-
-class OptionsDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-     title: Text("This is the title"),
-      actions: [
-        RadioListTile(title: Text("long break"), value: true, groupValue: true, onChanged: (value){}),
-        RadioListTile(title: Text("short break"), value: true, groupValue: true, onChanged: (value){})
-      ],
     );
   }
 }
