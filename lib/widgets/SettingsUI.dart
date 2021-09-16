@@ -29,44 +29,75 @@ class SettingsCard extends StatelessWidget {
   }
 }
 
-enum BreakLength{short, long}
+class TwoOptionsDialog extends StatefulWidget {
+   final String dialogTitle;
+   final String radioListOneTitle;
+   final String radioListTwoTitle;
+   final tileOneValue;
+   final tileTwoValue;
 
-class OptionsDialog extends StatefulWidget {
+  TwoOptionsDialog({
+    required this.dialogTitle,
+    required this.radioListOneTitle,
+    required this.radioListTwoTitle,
+    required this.tileOneValue,
+    required this.tileTwoValue
+  });
 
-  @override
-  _OptionsDialogState createState() => _OptionsDialogState();
+   @override
+  _TwoOptionsDialogState createState() => _TwoOptionsDialogState(
+     dialogTitle: dialogTitle,
+     radioListOneTitle: radioListOneTitle,
+     radioListTwoTitle: radioListTwoTitle,
+     tileOneValue: tileOneValue,
+     tileTwoValue: tileTwoValue
+  );
 }
 
-class _OptionsDialogState extends State<OptionsDialog> {
-  BreakLength? _breakLength = BreakLength.short;
+class _TwoOptionsDialogState extends State<TwoOptionsDialog> {
+  var _selectedValue;
+
+  final String dialogTitle;
+  final String radioListOneTitle;
+  final String radioListTwoTitle;
+  final tileOneValue;
+  final tileTwoValue;
+
+_TwoOptionsDialogState({
+  required this.dialogTitle,
+  required this.radioListOneTitle,
+  required this.radioListTwoTitle,
+  required this.tileOneValue,
+  required this.tileTwoValue
+});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("This is the title"),
+      title: Text(dialogTitle),
       actions: [
-        RadioListTile<BreakLength>(
-            title: Text("long break"),
-            value: BreakLength.long,
-            groupValue: _breakLength,
-            onChanged: (BreakLength? value){
+        RadioListTile<Object>(
+            title: Text(radioListOneTitle),
+            value: tileOneValue,
+            groupValue: _selectedValue,
+            onChanged: (value){
         setState((){
-        _breakLength = value;
+        _selectedValue = value;
         });
         }),
-        RadioListTile<BreakLength>(
-            title: Text("short break"),
-            value: BreakLength.short,
-            groupValue: _breakLength,
-            onChanged: (BreakLength? value){
+        RadioListTile<Object>(
+            title: Text(radioListTwoTitle),
+            value: tileTwoValue,
+            groupValue: _selectedValue,
+            onChanged: (value){
         setState((){
-        _breakLength = value;
+        _selectedValue = value;
+
         });
         })
       ],
     );
   }
 }
+//todo refactor options dialog so it can be reused
 
-
-//todo refactor options dialoge so it can be reused
