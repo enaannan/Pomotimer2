@@ -29,7 +29,6 @@ class SettingsCard extends StatelessWidget {
   }
 }
 
-
 class TwoOptionsDialog extends StatefulWidget {
    final String dialogTitle;
    final String radioListOneTitle;
@@ -93,12 +92,12 @@ _TwoOptionsDialogState({
             onChanged: (value){
         setState((){
         _selectedValue = value;
+
         });
         })
       ],
     );
   }
 }
-
-
 //todo refactor options dialog so it can be reused
+

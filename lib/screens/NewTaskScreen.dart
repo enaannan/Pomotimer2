@@ -137,6 +137,7 @@ bool _automaticBreaks = false;
                            );
                          });
                         }),
+
                   Divider(),
                   SwitchListTile(
                       title: Text("Automatic breaks"),
@@ -153,6 +154,7 @@ bool _automaticBreaks = false;
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(describeEnum(AlarmNames.ginger)),
+
                           Icon(Icons.keyboard_arrow_right),
                         ],
                       ),
@@ -167,6 +169,7 @@ bool _automaticBreaks = false;
                                 tileOneValue: AlarmNames.caramel,
                                 tileTwoValue: AlarmNames.ginger,
                               ); // comment sound was kept to two options for simplicity
+
                             });
                       }),
                   ],
@@ -227,3 +230,4 @@ class SettingsCard extends StatelessWidget {
     );
   }
 }
+
