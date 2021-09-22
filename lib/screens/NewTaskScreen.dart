@@ -4,6 +4,8 @@ import 'package:pomotimer2/widgets/BlueCard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pomotimer2/widgets/SettingsUI.dart';
 
+import 'TimeScreen.dart';
+
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({Key? key,}) : super(key: key);
 
@@ -16,7 +18,14 @@ enum BreakLength{short, long}
 enum WorkingSessions{two, four}
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
+  var _selectedValue = BreakLength.short;
 bool _automaticBreaks = false;
+
+updateSelectedValue (var currentValue){
+  setState(() {
+    _selectedValue = currentValue;
+  });
+}
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -99,7 +108,7 @@ bool _automaticBreaks = false;
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(describeEnum(BreakLength.short)),
+                        Text(describeEnum(_selectedValue)),
                         Icon(Icons.keyboard_arrow_right),
                       ],
                     ),
@@ -113,6 +122,7 @@ bool _automaticBreaks = false;
                                 radioListTwoTitle: describeEnum(BreakLength.long),
                               tileOneValue: BreakLength.short,
                               tileTwoValue: BreakLength.long,
+                              callback: updateSelectedValue,
                             );
                           });
                     }),
@@ -134,6 +144,7 @@ bool _automaticBreaks = false;
                                radioListTwoTitle: describeEnum(WorkingSessions.four),
                              tileOneValue: WorkingSessions.two,
                              tileTwoValue: WorkingSessions.four,
+                             callback: updateSelectedValue,
                            );
                          });
                         }),
@@ -168,6 +179,7 @@ bool _automaticBreaks = false;
                                   radioListTwoTitle: describeEnum(AlarmNames.ginger),
                                 tileOneValue: AlarmNames.caramel,
                                 tileTwoValue: AlarmNames.ginger,
+                                callback: updateSelectedValue,
                               ); // comment sound was kept to two options for simplicity
 
                             });
@@ -184,13 +196,14 @@ bool _automaticBreaks = false;
                 child: BlueCard(
                   textName: "Create new project",
                   action: () {
-                    print("Project created");
-                    Scaffold.of(context).showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         duration: Duration(milliseconds: 500),
                         content: Text("Project created"),
                       ),
                     );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context)=> TimeScreen()));
                   },
                 ),
               ),
