@@ -14,10 +14,6 @@ class NewTaskScreen extends StatefulWidget {
   _NewTaskScreenState createState() => _NewTaskScreenState();
 }
 
-enum AlarmNames{ginger , caramel}
-enum BreakLength{short, long}
-enum WorkingSessions{two, four}
-
 class _NewTaskScreenState extends State<NewTaskScreen> {
 
   @override
@@ -34,7 +30,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     Icons.settings,
                   ),
                   onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=> PomodroSetingsScreen()));
+                    Navigator.push(context,MaterialPageRoute(builder: (context)=> PomodroSettingsScreen()));
                   },
                 )
               ],
