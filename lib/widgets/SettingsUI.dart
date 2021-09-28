@@ -35,13 +35,15 @@ class TwoOptionsDialog extends StatefulWidget {
    final String radioListTwoTitle;
    final tileOneValue;
    final tileTwoValue;
+   final Function (Object) callback;
 
   TwoOptionsDialog({
     required this.dialogTitle,
     required this.radioListOneTitle,
     required this.radioListTwoTitle,
     required this.tileOneValue,
-    required this.tileTwoValue
+    required this.tileTwoValue,
+    required this.callback
   });
 
    @override
@@ -50,7 +52,8 @@ class TwoOptionsDialog extends StatefulWidget {
      radioListOneTitle: radioListOneTitle,
      radioListTwoTitle: radioListTwoTitle,
      tileOneValue: tileOneValue,
-     tileTwoValue: tileTwoValue
+     tileTwoValue: tileTwoValue,
+     callback: callback
   );
 }
 
@@ -62,13 +65,15 @@ class _TwoOptionsDialogState extends State<TwoOptionsDialog> {
   final String radioListTwoTitle;
   final tileOneValue;
   final tileTwoValue;
+  final Function (Object) callback;
 
 _TwoOptionsDialogState({
   required this.dialogTitle,
   required this.radioListOneTitle,
   required this.radioListTwoTitle,
   required this.tileOneValue,
-  required this.tileTwoValue
+  required this.tileTwoValue,
+  required this.callback
 });
 
   @override
@@ -83,6 +88,7 @@ _TwoOptionsDialogState({
             onChanged: (value){
         setState((){
         _selectedValue = value;
+        widget.callback(value!);
         });
         }),
         RadioListTile<Object>(
@@ -92,6 +98,7 @@ _TwoOptionsDialogState({
             onChanged: (value){
         setState((){
         _selectedValue = value;
+          widget.callback(value!);
 
         });
         })

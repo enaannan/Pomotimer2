@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomotimer2/bloc/UsersInfoBloc.dart';
+import 'package:pomotimer2/data/models/pomodoro.dart';
 import 'package:pomotimer2/data/models/user.dart';
 
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -44,23 +45,17 @@ class _TimeScreenState extends State<TimeScreen> {
     leading: IconButton(
     icon: Icon
     (Icons.list_rounded),
-    onPressed: ()
-    => Navigator.of(context)
-        .push(
+    onPressed: ()=> Navigator.of(context).push(
     MaterialPageRoute(builder: (context) => ListScreen(
     ))),
     ),
-    title: Text(
-    "PomoTimer"),
+    title: Text("PomoTimer"),
     ),
     body: SafeArea
     (
     child: StreamBuilder(
-    stream: bloc.allUsersAndPomodoros
-    ,
-    builder: (context, AsyncSnapshot<User>
-    snapshot)
-    {
+    stream: bloc.allUsersAndPomodoros,
+    builder: (context, AsyncSnapshot<User> snapshot){
     if (snapshot.hasData) {
     return PomoTimerDisplay(
     lastName: snapshot.data!.lastName!,
@@ -84,7 +79,7 @@ class PomoTimerDisplay extends StatefulWidget {
   final String lastName;
   final String otherNames;
 
-  List<Pomodoros>? pomodoros = []; //todo:fix the datatype
+  List<Pomodoro>? pomodoros = []; //todo:fix the datatype
 
   PomoTimerDisplay({
     required this.lastName,
@@ -102,7 +97,7 @@ class _PomoTimerDisplayState extends State<PomoTimerDisplay> {
   final String lastName;
   final String otherNames;
 
-  final List<Pomodoros>? pomodoros;
+  final List<Pomodoro>? pomodoros;
 
   bool _isTimerRunning = false;
   bool _isPaused = false ;
